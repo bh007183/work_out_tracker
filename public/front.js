@@ -2,9 +2,11 @@
 
 
 
+//    document.addEventListener('DOMContentLoaded', function() {
+    
     var elems = document.querySelectorAll('.modal');
     var instances = M.Modal.init(elems);
-
+//   });
 
 
 
@@ -20,7 +22,7 @@ $(".button").on("click", function(event){
         sets: $("#sets").val(),
         reps:$("#reps").val(),
         duration: $("#duration").val(),
-        distance: $("#distance").val()
+        distance: $("#Distance").val()
     }
     $.ajax({
         url: "/api/post",
@@ -69,7 +71,8 @@ $.ajax({
                     ${res[i].duration}
                     </div>
                     <button class="delete" data-id="${res[i].id}">Delete</button>
-                    <button class="edit modal-trigger" href="#modal1" data-id="${res[i].id}">Edit</button>
+                    <button data-target="modal1" class="edit modal-trigger" href="#modal1" data-id="${res[i].id}">Edit</button>
+                    
                    
                  `
             
@@ -99,17 +102,45 @@ $.ajax({
         }).then(res=>{
             // window.location.href = ("index.html")
             console.log(res)
-        $("#name").val(res.name),
-        $("#type").val(res.type),
-        $("#weight").val(res.weight),
-        $("#sets").val(res.sets),
-        $("#reps").val(res.reps),
-        $("#duration").val(res.duration),
-        $("#distance").val(res.distance)
+        $(".name").attr("value", res.name),
+        $(".type").attr("value", res.type),
+        $(".weight").attr("value", res.weight),
+        $(".sets").attr("value", res.sets),
+        $(".reps").attr("value", res.reps),
+        $(".duration").attr("value", res.duration),
+        $(".Distance").attr("value", res.distance)
+
+       
+
+
+        $(".subedit").on("click", function(event){
+            const edited = {
+                name: $(".name").val(),
+                type: $(".type").val(),
+                weight: $(".weight").val(),
+                sets: $(".sets").val(),
+                reps: $(".reps").val(),
+                duration: $(".duration").val(),
+                distance: $(".Distance").val()
+            }
+            console.log(edited)
+            event.preventDefault()
+            $.ajax({
+                url: "/edit/"+ res.id,
+                method: "put",
+                data: edited
+            }).then(res=>{
+                console.log(res)
+                location.reload()
+            })
+            
+
+        })
         
 
         })
-      
+        
+       
         
         
 

@@ -18,7 +18,7 @@ module.exports = function(app){
     })
 
 
-    app.post("/api/post", (req, res)=>{
+    app.post("/api/post", async (req, res)=>{
         db.Workout.create(req.body).then(data=>{
             res.json(data)
         })
@@ -30,6 +30,25 @@ module.exports = function(app){
                 id: req.params.id
             }
         }).then(data=>{
+            res.json(data)
+        })
+    })
+
+    app.put("/edit/:id", (req, res)=>{
+        console.log(req.body)
+        console.log(req.params.id)
+        db.Workout.update(
+            {name: req.body.name,
+            type: req.body.type,
+            wight: req.body.weight,
+            sets: req.body.sets,
+            reps: req.body.reps,
+            duration: req.body.duration,
+            distance: req.body.Distance},{
+            where: {
+                id: req.params.id
+            } 
+        }).then(data => {
             res.json(data)
         })
     })
